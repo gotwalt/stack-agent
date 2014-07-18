@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = StackAgent::VERSION
   gem.authors       = ['Aaron Gotwalt']
   gem.email         = ['gotwalt@gmail.com']
-  gem.description   = 'Control Redlink home thermostats'
+  gem.description   = 'Registers development stacks on stack'
   gem.summary       = gem.description
   gem.homepage      = 'https://github.com/gotwalt/stack-agent'
   gem.license       = 'MIT'
@@ -18,6 +18,6 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'thor'
-  gem.add_dependency 'rest-client'
+  gem.add_dependency 'thor', '~> 0'
+  gem.add_dependency 'rest-client', '~> 0'
 end
