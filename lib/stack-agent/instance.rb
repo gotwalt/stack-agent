@@ -24,14 +24,14 @@ module StackAgent
 
       begin
         response = RestClient::Resource.new(url, verify_ssl: OpenSSL::SSL::VERIFY_NONE).post(data)
-        self.instance_token = JSON.parse(response.body)['id']
+        return self.instance_token = JSON.parse(response.body)['id']
       rescue RestClient::BadRequest => ex
         false
       end
     end
 
     def unregister
-      raise 'Not registered' unless registered?
+      return false unless registered?
 
       config = StackAgent.configuration
       url = "#{config.api_host}/v1/apps/#{config.app_token}/stacks/#{instance_token}"

@@ -2,7 +2,7 @@ require 'stack-agent/configuration'
 require 'stack-agent/instance'
 
 module StackAgent
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
   class << self
     attr_writer :configuration
@@ -22,12 +22,12 @@ module StackAgent
 
   def self.register
     @instance = StackAgent::Instance.new
-    @instance.register
+    puts "Registered Stack #{@instance.instance_token}" if @instance.register
   end
 
   def self.unregister
-    raise 'Not registered' unless @instance && @instance.registered?
-    @instance.unregister
+    return false unless @instance
+    puts "Unregistered Stack #{@instance.instance_token}" if @instance.unregister
   end
 
   def self.connect!

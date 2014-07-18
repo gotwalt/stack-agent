@@ -15,16 +15,21 @@ module StackAgent
       @name = Socket.gethostname
 
       # If we're running inside rails, attempt to fill in a bunch of the blanks
-      if defined?(Rails)
-        # only do this if we're in development environment
-        if Rails.env.development? && defined?(Rails::Server)
-          ip = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
-          port = Rails::Server.new.options[:Port]
-          @uri = "http://#{ip}:#{port}"
-          @group = 'Development'
-        end
-
+      if defined?(Rails) && Rails.env.development?
+        @group = 'Development'
+        @uri = "http://#{ip}:#{port}" if port
       end
+    end
+
+    private
+
+    def ip
+      Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+    end
+
+    def port
+      return Rails::Server.new.options[:Port] if defined?(Rails::Server)
+      return ENV['PORT'] if ENV['PORT']
     end
 
   end
