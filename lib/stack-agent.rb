@@ -1,6 +1,5 @@
-require 'stack_agent/configuration'
-require 'stack_agent/instance'
-require 'rest-client'
+require 'stack-agent/configuration'
+require 'stack-agent/instance'
 
 module StackAgent
   VERSION = '0.1.0'
@@ -29,6 +28,14 @@ module StackAgent
   def self.unregister
     raise 'Not registered' unless @instance && @instance.registered?
     @instance.unregister
+  end
+
+  def self.connect!
+    register
+
+    at_exit do
+      unregister
+    end
   end
 
 end

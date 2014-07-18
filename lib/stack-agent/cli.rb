@@ -1,5 +1,5 @@
 require 'thor'
-require 'stack_agent'
+require 'stack-agent'
 require 'irb'
 
 module StackAgent
@@ -20,14 +20,26 @@ module StackAgent
 
     desc 'unregister APP_TOKEN INSTANCE_TOKEN', 'Unregisters the provided app and instance token'
     def unregister(app_token, instance_token)
-
       StackAgent.configure do |c|
         c.app_token = app_token
       end
 
       StackAgent::Instance.new(instance_token).unregister
       puts "Unregistered stack"
+    end
 
+    desc 'stacks APP_TOKEN', 'Lists known stacks for a given app'
+    def stacks(app_token)
+      StackAgent.configure do |c|
+        c.app_token = app_token
+      end
+
+      stacks = StackAgent::Instance.stacks
+
+      puts "Stacks"
+      stacks.each do |stack|
+        puts "#{stack['id'].ljust(30)} #{stack['name'].ljust(30)} #{stack['uri']}"
+      end
     end
 
     desc 'cli', 'Launches IRB instance with everything required'

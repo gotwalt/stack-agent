@@ -1,4 +1,5 @@
 require 'json'
+require 'rest-client'
 
 module StackAgent
   class Instance
@@ -23,9 +24,9 @@ module StackAgent
 
       begin
         response = RestClient::Resource.new(url, verify_ssl: OpenSSL::SSL::VERIFY_NONE).post(data)
-        return self.instance_token = JSON.parse(response.body)['id']
+        self.instance_token = JSON.parse(response.body)['id']
       rescue RestClient::BadRequest => ex
-        raise "Unable to register"
+        false
       end
     end
 
@@ -37,14 +38,21 @@ module StackAgent
 
       begin
         RestClient::Resource.new(url, verify_ssl: OpenSSL::SSL::VERIFY_NONE).delete
-        return true
+        true
       rescue RestClient::BadRequest => ex
-        raise "Unable to unregister"
+        false
       end
     end
 
     def registered?
       instance_token != nil
+    end
+
+    def self.stacks
+      config = StackAgent.configuration
+      url = "#{config.api_host}/v1/apps/#{config.app_token}/stacks"
+      response = RestClient::Resource.new(url, verify_ssl: OpenSSL::SSL::VERIFY_NONE).get
+      JSON.parse(response.body)
     end
   end
 end

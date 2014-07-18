@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'stack_agent'
+require 'stack-agent'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'stack_agent'
+  gem.name          = 'stack-agent'
   gem.version       = StackAgent::VERSION
   gem.authors       = ['Aaron Gotwalt']
   gem.email         = ['gotwalt@gmail.com']
