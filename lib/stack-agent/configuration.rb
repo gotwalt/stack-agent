@@ -29,7 +29,11 @@ module StackAgent
 
     def port
       return Rails::Server.new.options[:Port] if defined?(Rails::Server)
-      return ENV['PORT'] if ENV['PORT']
+      return ENV['PORT'] if (ENV['PORT'] && is_known_http_server?)
+    end
+
+    def is_known_http_server?
+      %w(puma unicorn thin rackup).include?(File.basename($0))
     end
 
   end

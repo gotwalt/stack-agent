@@ -2,7 +2,7 @@ require 'stack-agent/configuration'
 require 'stack-agent/instance'
 
 module StackAgent
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   class << self
     attr_writer :configuration
